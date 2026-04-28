@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPShop - Game Top-Up Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="hero-slider">
+            <div class="slide active">
+                <h1>Get the Best Items for Your Game!</h1>
+                <p>Exclusive Offers Just for You</p>
+            </div>
+            <div class="slide">
+                <h1>Top-Up Easily</h1>
+                <p>Fast and Secure Transactions</p>
+            </div>
+            <div class="slide">
+                <h1>Join Our Community</h1>
+                <p>Experience the Ultimate Gaming</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="product-grid">
+            <h2>Available Products</h2>
+            <div class="filters">
+                <button onclick="filterProducts('all')">All</button>
+                <button onclick="filterProducts('game1')">Game 1</button>
+                <button onclick="filterProducts('game2')">Game 2</button>
+            </div>
+            <div class="products">
+                <div class="product-item" data-category="game1">
+                    <h3>Product 1</h3>
+                    <p>Price: $10</p>
+                    <button onclick="addToCart('Product 1', 10)">Add to Cart</button>
+                </div>
+                <div class="product-item" data-category="game2">
+                    <h3>Product 2</h3>
+                    <p>Price: $15</p>
+                    <button onclick="addToCart('Product 2', 15)">Add to Cart</button>
+                </div>
+                <!-- More products can be added here -->
+            </div>
+        </section>
+
+        <div class="shopping-cart-modal">
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <p>Total: $<span id="total-price">0</span></p>
+            <button onclick="clearCart()">Clear Cart</button>
+            <button onclick="checkout()">Checkout</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 SIPShop. All Rights Reserved.</p>
+        <p>Follow us on social media!</p>
+    </footer>
+</body>
+</html>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+header {
+    text-align: center;
+    padding: 20px;
+}
+.hero-slider {
+    position: relative;
+}
+.slide {
+    display: none;
+}
+.slide.active {
+    display: block;
+}
+.product-grid {
+    padding: 20px;
+}
+.filters button {
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.product-item {
+    border: 1px solid #fff;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    transition: transform 0.2s;
+}
+.product-item:hover {
+    transform: scale(1.05);
+}
+.shopping-cart-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #333;
+    padding: 20px;
+    border-radius: 10px;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+}
+</style>
+
+<script>
+let cart = [];
+
+function addToCart(product, price) {
+    cart.push({ product, price });
+    updateCartDisplay();
+}
+
+function removeFromCart(product) {
+    cart = cart.filter(item => item.product !== product);
+    updateCartDisplay();
+}
+
+function updateCartDisplay() {
+    const cartItems = document.getElementById('cart-items');
+    const totalPriceDisplay = document.getElementById('total-price');
+    cartItems.innerHTML = '';
+    let total = 0;
+    cart.forEach(item => {
+        cartItems.innerHTML += `<div>${item.product} - $${item.price}</div>`;
+        total += item.price;
+    });
+    totalPriceDisplay.innerText = total;
+}
+
+function clearCart() {
+    cart = [];
+    updateCartDisplay();
+}
+
+function checkout() {
+    alert('Proceeding to checkout!');
+}
+
+function filterProducts(category) {
+    const products = document.querySelectorAll('.product-item');
+    products.forEach(product => {
+        product.style.display = (category === 'all' || product.dataset.category === category) ? 'block' : 'none';
+    });
+}
+
+// Initialize first slide
+document.querySelector('.slide').classList.add('active');
+</script>
