@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPShop E-commerce</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="hero-slider">
+            <div class="slide active">
+                <img src="hero1.jpg" alt="Hero Slide 1">
+            </div>
+            <div class="slide">
+                <img src="hero2.jpg" alt="Hero Slide 2">
+            </div>
+            <div class="slide">
+                <img src="hero3.jpg" alt="Hero Slide 3">
+            </div>
+        </div>
+        <nav>
+            <h1>SIPShop Game Top-Up Store</h1>
+            <input type="text" id="search" placeholder="Search products..."><button onclick="searchProducts()">Search</button>
+        </nav>
+    </header>
+    <main>
+        <section class="filters">
+            <label for="category">Category:</label>
+            <select id="category" onchange="filterProducts()">
+                <option value="all">All</option>
+                <option value="game1">Game 1</option>
+                <option value="game2">Game 2</option>
+            </select>
+            <label for="sort">Sort by:</label>
+            <select id="sort" onchange="sortProducts()">
+                <option value="default">Default</option>
+                <option value="price-low-high">Price: Low to High</option>
+                <option value="price-high-low">Price: High to Low</option>
+            </select>
+        </section>
+        <section class="product-grid" id="product-grid">
+            <div class="product" data-category="game1">
+                <h2>Product 1</h2>
+                <p>Price: $10</p>
+                <button onclick="addToCart('Product 1', 10)">Add to Cart</button>
+            </div>
+            <div class="product" data-category="game2">
+                <h2>Product 2</h2>
+                <p>Price: $20</p>
+                <button onclick="addToCart('Product 2', 20)">Add to Cart</button>
+            </div>
+            <!-- More product divs -->
+        </section>
+        <section class="shopping-cart">
+            <h2>Shopping Cart</h2>
+            <div id="cart-items"></div>
+            <p>Total: $<span id="total">0</span></p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 SIPShop. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
+<style>
+body { font-family: Arial, sans-serif; }
+header { position: relative; }
+.hero-slider { position: relative; overflow: hidden; }
+.slide { display: none; }
+.slide.active { display: block; }
+nav { display: flex; justify-content: space-between; align-items: center; }
+main { padding: 20px; }
+.filters { margin-bottom: 20px; }
+.product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.shopping-cart { margin-top: 20px; }
+footer { text-align: center; padding: 10px; background: #eee; }
+</style>
+
+<script>
+const cart = [];
+
+function addToCart(product, price) {
+    cart.push({ product, price });
+    updateCartDisplay();
+}
+
+function updateCartDisplay() {
+    const cartItemsDiv = document.getElementById('cart-items');
+    const totalSpan = document.getElementById('total');
+    cartItemsDiv.innerHTML = '';
+    let total = 0;
+    cart.forEach(item => {
+        cartItemsDiv.innerHTML += `<p>${item.product} - $${item.price}</p>`;
+        total += item.price;
+    });
+    totalSpan.textContent = total;
+}
+
+function filterProducts() {
+    const category = document.getElementById('category').value;
+    const products = document.querySelectorAll('.product');
+    products.forEach(product => {
+        product.style.display = (category === 'all' || product.getAttribute('data-category') === category) ? 'block' : 'none';
+    });
+}
+
+function sortProducts() {
+    const sortValue = document.getElementById('sort').value;
+    const productGrid = document.getElementById('product-grid');
+    const products = Array.from(productGrid.children);
+    products.sort((a, b) => {
+        const priceA = parseFloat(a.querySelector('p').textContent.replace('Price: $', ''));
+        const priceB = parseFloat(b.querySelector('p').textContent.replace('Price: $', ''));
+        return sortValue === 'price-low-high' ? priceA - priceB : sortValue === 'price-high-low' ? priceB - priceA : 0;
+    });
+    productGrid.innerHTML = '';
+    products.forEach(product => productGrid.appendChild(product));
+}
+
+function searchProducts() {
+    const query = document.getElementById('search').value.toLowerCase();
+    const products = document.querySelectorAll('.product');
+    products.forEach(product => {
+        const productName = product.querySelector('h2').textContent.toLowerCase();
+        product.style.display = productName.includes(query) ? 'block' : 'none';
+    });
+}
+</script>
