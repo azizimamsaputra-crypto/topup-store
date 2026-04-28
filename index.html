@@ -1,1 +1,692 @@
-<!DOCTYPE html>\n<html lang='en'>\n<head>\n    <meta charset='UTF-8'>\n    <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n    <title>JamkosStore - Top-Up Store</title>\n    <style>\n        body {\n            background-color: #121212;\n            color: white;\n            font-family: Arial, sans-serif;\n        }\n        .container {\n            max-width: 600px;\n            margin: auto;\n            padding: 20px;\n            border-radius: 8px;\n            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);\n        }\n        h1 {\n            text-align: center;\n        }\n        select, input {\n            width: 100%;\n            padding: 10px;\n            margin: 10px 0;\n            border: none;\n            border-radius: 4px;\n        }\n        button {\n            background-color: #ff4081;\n            color: white;\n            border: none;\n            padding: 15px;\n            border-radius: 4px;\n            cursor: pointer;\n            font-size: 16px;\n        }\n        button:hover {\n            background-color: #f50057;\n        }\n    </style>\n</head>\n<body>\n    <div class='container'>\n        <h1>JamkosStore - Top-Up Store</h1>\n        <label for='game'>Select Game:</label>\n        <select id='game'>\n            <option value='free-fire'>Free Fire</option>\n            <option value='mobile-legends'>Mobile Legends</option>\n        </select>\n        <label for='player-id'>Player ID:</label>\n        <input type='text' id='player-id' placeholder='Enter your Player ID' required>\n        <label for='diamond-nominal'>Diamond Nominal:</label>\n        <select id='diamond-nominal'>\n            <option value='100'>100 Diamonds</option>\n            <option value='300'>300 Diamonds</option>\n            <option value='500'>500 Diamonds</option>\n            <option value='1000'>1000 Diamonds</option>\n        </select>\n        <label for='payment-method'>Payment Method:</label>\n        <select id='payment-method'>\n            <option value='dana'>Dana</option>\n            <option value='ovo'>OVO</option>\n            <option value='gopay'>GoPay</option>\n        </select>\n        <button type='button' id='top-up-button'>Top Up</button>\n    </div>\n</body>\n</html>
+<!DOCTYPE html>
+<html lang='id'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>JamkosStore - Top-Up Game Professional</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --secondary: #ff00ff;
+            --dark-bg: #0a0e27;
+            --card-bg: #1a1f3a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --error: #ff3333;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a0033 100%);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a0033 50%, #0a0e27 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 30px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px var(--primary);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group label span {
+            color: var(--secondary);
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        select:hover, input:hover {
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+
+        /* Price Display */
+        .price-box {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .price-amount {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Summary */
+        .summary {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .summary-label {
+            color: var(--text-secondary);
+        }
+
+        .summary-value {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Button */
+        .btn-topup {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 8px;
+            color: var(--dark-bg);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .btn-topup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+
+        .btn-topup:hover::before {
+            left: 100%;
+        }
+
+        .btn-topup:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-topup:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-topup:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            margin: 10% auto;
+            padding: 30px;
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            max-width: 400px;
+            text-align: center;
+            animation: popIn 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: var(--success);
+            margin-bottom: 15px;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .modal-content h2 {
+            color: var(--success);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .modal-content p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .modal-details {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .modal-detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .modal-detail-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-label {
+            color: var(--text-secondary);
+        }
+
+        .modal-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: var(--primary);
+            color: var(--dark-bg);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .close-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .price-amount {
+                font-size: 24px;
+            }
+
+            .btn-topup {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class='animated-bg'></div>
+
+    <div class='container'>
+        <!-- Header -->
+        <div class='header'>
+            <div class='logo'>🎮</div>
+            <h1>JamkosStore</h1>
+            <p>Top-Up Game Professional • Aman & Cepat</p>
+        </div>
+
+        <!-- Form -->
+        <div class='form-container'>
+            <form id='topupForm'>
+                <!-- Game Selection -->
+                <div class='form-group'>
+                    <label for='game'>Pilih Game <span>*</span></label>
+                    <select id='game' required>
+                        <option value=''>-- Pilih Game --</option>
+                        <option value='free-fire'>🔥 Free Fire</option>
+                        <option value='mobile-legends'>⚔️ Mobile Legends</option>
+                        <option value='pubg'>🎯 PUBG Mobile</option>
+                    </select>
+                </div>
+
+                <!-- Player ID -->
+                <div class='form-group'>
+                    <label for='playerId'>ID Player / Username <span>*</span></label>
+                    <input type='text' id='playerId' placeholder='Masukkan ID atau username Anda' required>
+                </div>
+
+                <!-- Diamond Nominal -->
+                <div class='form-group'>
+                    <label for='diamond'>Nominal Diamond <span>*</span></label>
+                    <select id='diamond' required>
+                        <option value=''>-- Pilih Nominal --</option>
+                    </select>
+                </div>
+
+                <!-- Price Box -->
+                <div class='price-box'>
+                    <div class='price-label'>Total Harga</div>
+                    <div class='price-amount' id='priceAmount'>Rp 0,-</div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class='form-group'>
+                    <label>Metode Pembayaran <span>*</span></label>
+                    <select id='paymentMethod' required>
+                        <option value=''>-- Pilih Metode --</option>
+                        <option value='dana'>💳 Dana</option>
+                        <option value='ovo'>💜 OVO</option>
+                        <option value='gopay'>🔵 GoPay</option>
+                        <option value='transfer'>🏦 Transfer Bank</option>
+                    </select>
+                </div>
+
+                <!-- Summary -->
+                <div class='summary'>
+                    <div class='summary-row'>
+                        <span class='summary-label'>Game:</span>
+                        <span class='summary-value' id='summaryGame'>-</span>
+                    </div>
+                    <div class='summary-row'>
+                        <span class='summary-label'>Player ID:</span>
+                        <span class='summary-value' id='summaryPlayerId'>-</span>
+                    </div>
+                    <div class='summary-row'>
+                        <span class='summary-label'>Diamond:</span>
+                        <span class='summary-value' id='summaryDiamond'>-</span>
+                    </div>
+                    <div class='summary-row'>
+                        <span class='summary-label'>Pembayaran:</span>
+                        <span class='summary-value' id='summaryPayment'>-</span>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <button type='submit' class='btn-topup'>
+                    ⚡ Proses Top Up
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id='successModal' class='modal'>
+        <div class='modal-content'>
+            <div class='success-icon'>✓</div>
+            <h2>Top Up Berhasil!</h2>
+            <p>Diamond telah ditambahkan ke akun Anda</p>
+            <div class='modal-details'>
+                <div class='modal-detail-row'>
+                    <span class='modal-label'>Game:</span>
+                    <span class='modal-value' id='modalGame'>-</span>
+                </div>
+                <div class='modal-detail-row'>
+                    <span class='modal-label'>Player ID:</span>
+                    <span class='modal-value' id='modalPlayerId'>-</span>
+                </div>
+                <div class='modal-detail-row'>
+                    <span class='modal-label'>Diamond:</span>
+                    <span class='modal-value' id='modalDiamond'>-</span>
+                </div>
+                <div class='modal-detail-row'>
+                    <span class='modal-label'>Total Harga:</span>
+                    <span class='modal-value' id='modalPrice'>-</span>
+                </div>
+                <div class='modal-detail-row'>
+                    <span class='modal-label'>Metode:</span>
+                    <span class='modal-value' id='modalMethod'>-</span>
+                </div>
+            </div>
+            <p style='font-size: 12px; color: var(--text-secondary); margin-top: 10px;'>
+                Terima kasih telah berbelanja di JamkosStore!
+            </p>
+            <button class='close-btn' onclick='closeModal()'>Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        // Game Data
+        const games = {
+            'free-fire': {
+                name: '🔥 Free Fire',
+                diamonds: [
+                    { nominal: 100, price: 10000 },
+                    { nominal: 300, price: 25000 },
+                    { nominal: 500, price: 40000 },
+                    { nominal: 1000, price: 75000 },
+                    { nominal: 2000, price: 140000 }
+                ]
+            },
+            'mobile-legends': {
+                name: '⚔️ Mobile Legends',
+                diamonds: [
+                    { nominal: 50, price: 8000 },
+                    { nominal: 150, price: 22000 },
+                    { nominal: 300, price: 42000 },
+                    { nominal: 500, price: 70000 },
+                    { nominal: 1000, price: 130000 }
+                ]
+            },
+            'pubg': {
+                name: '🎯 PUBG Mobile',
+                diamonds: [
+                    { nominal: 100, price: 12000 },
+                    { nominal: 300, price: 30000 },
+                    { nominal: 500, price: 45000 },
+                    { nominal: 1000, price: 80000 },
+                    { nominal: 2000, price: 150000 }
+                ]
+            }
+        };
+
+        const paymentMethods = {
+            'dana': '💳 Dana',
+            'ovo': '💜 OVO',
+            'gopay': '🔵 GoPay',
+            'transfer': '🏦 Transfer Bank'
+        };
+
+        // DOM Elements
+        const gameSelect = document.getElementById('game');
+        const diamondSelect = document.getElementById('diamond');
+        const priceAmount = document.getElementById('priceAmount');
+        const form = document.getElementById('topupForm');
+        const modal = document.getElementById('successModal');
+
+        // Format Currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(amount);
+        }
+
+        // Update Diamond Options
+        gameSelect.addEventListener('change', function() {
+            const selectedGame = games[this.value];
+
+            // Update diamond options
+            diamondSelect.innerHTML = '<option value="">-- Pilih Nominal --</option>';
+            if (selectedGame) {
+                selectedGame.diamonds.forEach(diamond => {
+                    const option = document.createElement('option');
+                    option.value = JSON.stringify(diamond);
+                    option.textContent = `${diamond.nominal} Diamond - ${formatCurrency(diamond.price)}`;
+                    diamondSelect.appendChild(option);
+                });
+            }
+
+            updateSummary();
+        });
+
+        // Update Price
+        diamondSelect.addEventListener('change', function() {
+            if (this.value) {
+                const diamond = JSON.parse(this.value);
+                priceAmount.textContent = formatCurrency(diamond.price);
+            } else {
+                priceAmount.textContent = 'Rp 0,-';
+            }
+            updateSummary();
+        });
+
+        // Update Summary
+        function updateSummary() {
+            const game = gameSelect.value;
+            const playerId = document.getElementById('playerId').value || '-';
+            const diamond = diamondSelect.value ? JSON.parse(diamondSelect.value) : null;
+            const payment = document.getElementById('paymentMethod').value;
+
+            const gameName = games[game]?.name || '-';
+            const diamondText = diamond ? `${diamond.nominal} Diamond` : '-';
+            const paymentName = paymentMethods[payment] || '-';
+
+            document.getElementById('summaryGame').textContent = gameName;
+            document.getElementById('summaryPlayerId').textContent = playerId;
+            document.getElementById('summaryDiamond').textContent = diamondText;
+            document.getElementById('summaryPayment').textContent = paymentName;
+        }
+
+        // Event Listeners for Summary Update
+        document.getElementById('playerId').addEventListener('input', updateSummary);
+        document.getElementById('paymentMethod').addEventListener('change', updateSummary);
+
+        // Form Submit
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const game = gameSelect.value;
+            const playerId = document.getElementById('playerId').value;
+            const diamond = JSON.parse(diamondSelect.value);
+            const payment = document.getElementById('paymentMethod').value;
+
+            if (!game || !playerId || !diamondSelect.value || !payment) {
+                alert('Mohon isi semua field');
+                return;
+            }
+
+            // Show Success Modal
+            document.getElementById('modalGame').textContent = games[game].name;
+            document.getElementById('modalPlayerId').textContent = playerId;
+            document.getElementById('modalDiamond').textContent = `${diamond.nominal} Diamond`;
+            document.getElementById('modalPrice').textContent = formatCurrency(diamond.price);
+            document.getElementById('modalMethod').textContent = paymentMethods[payment];
+
+            modal.style.display = 'block';
+
+            // Reset Form
+            setTimeout(() => {
+                form.reset();
+                diamondSelect.innerHTML = '<option value="">-- Pilih Nominal --</option>';
+                priceAmount.textContent = 'Rp 0,-';
+                updateSummary();
+            }, 2000);
+        });
+
+        // Close Modal
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        updateSummary();
+    </script>
+</body>
+</html>
